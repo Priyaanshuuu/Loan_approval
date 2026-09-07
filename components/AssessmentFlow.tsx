@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   getVisibleQuestions,
   type QuestionAnswers,
@@ -13,10 +14,10 @@ interface AssessmentFlowProps {
 }
 
 export default function AssessmentFlow({ onComplete }: AssessmentFlowProps) {
+  const router = useRouter();
   const [answers, setAnswers] = useState<QuestionAnswers>({});
   const [questionIndex, setQuestionIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [complete, setComplete] = useState(false);
 
   const questions = useMemo(() => getVisibleQuestions(answers), [answers]);
   const question = questions[questionIndex] ?? questions[questions.length - 1];
@@ -49,8 +50,12 @@ export default function AssessmentFlow({ onComplete }: AssessmentFlowProps) {
         setError("Please complete all required questions before continuing.");
         return;
       }
-      setComplete(true);
+      window.sessionStorage.setItem(
+        "borrower-copilot-profile",
+        JSON.stringify(profile),
+      );
       onComplete?.(profile);
+      router.push("/results");
       return;
     }
 
@@ -60,22 +65,6 @@ export default function AssessmentFlow({ onComplete }: AssessmentFlowProps) {
   function moveBack() {
     setError(null);
     setQuestionIndex((index) => Math.max(0, index - 1));
-  }
-
-  if (complete) {
-    return (
-      <section className="assessment-card completion-card" aria-live="polite">
-        <span className="eyebrow">Assessment captured</span>
-        <h1>Your answers are ready.</h1>
-        <p>
-          The next step will turn this information into a borrower-side range,
-          rate view, EMI ceiling, and stress check.
-        </p>
-        <div className="completion-mark" aria-hidden="true">
-          ✓
-        </div>
-      </section>
-    );
   }
 
   if (!question) return null;
