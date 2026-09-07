@@ -91,7 +91,7 @@ export default function NegotiationCard() {
           </div>
         ) : (
           <div className="card-metrics">
-            <div><span>My safe range</span><strong>{formatRange(result.safeRange)}</strong></div>
+            <div><span>My safe range</span><strong>{formatSafeRange(result.safeRange)}</strong></div>
             <div><span>EMI ceiling</span><strong>{formatCurrency(result.emiCeiling)} / month</strong></div>
             <div><span>Fair rate</span><strong>{formatRateRange(result.fairRate)}</strong></div>
             <div><span>Estimated all-in APR</span><strong>{formatRateRange(result.estimatedApr)}</strong></div>
@@ -157,5 +157,6 @@ function cardVerdict(verdict: BorrowerResult["verdict"]) {
 
 function formatCurrency(value: number) { return `₹${Math.round(value).toLocaleString("en-IN")}`; }
 function formatRange(range: { min: number; max: number }) { return `${formatCurrency(range.min)} – ${formatCurrency(range.max)}`; }
+function formatSafeRange(range: { min: number; max: number }) { return range.min === 0 ? `Up to ${formatCurrency(range.max)}` : formatRange(range); }
 function formatRate(value: number) { return `${(value * 100).toFixed(1)}%`; }
 function formatRateRange(range: { min: number; max: number }) { return `${formatRate(range.min)} – ${formatRate(range.max)}`; }

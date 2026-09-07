@@ -88,7 +88,7 @@ export default function ResultsPage() {
           <ResultPanel eyebrow="01 / Amount" title="Two maximums">
             <div className="amount-pair">
               <div><span>Likely lender range</span><strong>{formatRange(result.lenderRange)}</strong></div>
-              <div className="amount-safe"><span>Safe borrower range</span><strong>{formatRange(result.safeRange)}</strong></div>
+              <div className="amount-safe"><span>Safe borrower range</span><strong>{formatSafeRange(result.safeRange)}</strong></div>
             </div>
             <p className="panel-note">Negotiate around the safe borrower range, not only the amount a lender may offer.</p>
           </ResultPanel>
@@ -187,4 +187,5 @@ function verdictDescription(verdict: BorrowerResult["verdict"], requested: numbe
 
 function formatCurrency(value: number) { return `₹${Math.round(value).toLocaleString("en-IN")}`; }
 function formatRange(range: { min: number; max: number }) { return `${formatCurrency(range.min)} – ${formatCurrency(range.max)}`; }
+function formatSafeRange(range: { min: number; max: number }) { return range.min === 0 ? `Up to ${formatCurrency(range.max)}` : formatRange(range); }
 function formatRateRange(range: { min: number; max: number }) { return `${(range.min * 100).toFixed(1)}% – ${(range.max * 100).toFixed(1)}%`; }
