@@ -173,6 +173,47 @@ button { cursor: pointer; }
 .results-empty h1 { margin: 17px 0 12px; font: 400 46px Georgia, serif; }
 .results-empty p:not(.eyebrow) { max-width: 430px; margin: 0 0 25px; color: var(--muted); line-height: 1.6; }
 
+.card-page { min-height: 100vh; background: linear-gradient(135deg, #f5f2e9 0%, #f7f6ef 52%, #e9eee5 100%); }
+.negotiation-layout { width: min(1040px, calc(100% - 48px)); margin: 0 auto; padding: 67px 0 84px; display: grid; grid-template-columns: .7fr 1.3fr; gap: 82px; align-items: start; }
+.card-intro { padding-top: 35px; }
+.card-intro h1 { margin: 18px 0 15px; font: 400 47px/1.02 Georgia, serif; letter-spacing: -1px; }
+.card-intro > p:not(.eyebrow) { max-width: 275px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.card-actions { display: grid; justify-items: start; gap: 10px; margin-top: 32px; }
+.negotiation-card { background: #fffdf8; border: 1px solid var(--ink); padding: 30px 31px 22px; box-shadow: 15px 15px 0 var(--coral); }
+.card-header { display: flex; align-items: start; justify-content: space-between; gap: 20px; padding-bottom: 24px; border-bottom: 2px solid var(--ink); }
+.card-overline { color: var(--coral); font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.card-header h2 { margin: 8px 0 0; font: 400 30px Georgia, serif; text-transform: uppercase; }
+.card-verdict { max-width: 145px; padding: 9px 10px; background: #dceadd; color: #31523b; font-size: 10px; font-weight: 800; line-height: 1.25; text-align: right; text-transform: uppercase; }
+.card-verdict-stop { background: #f5ddd4; color: #994d3c; }
+.card-request, .card-route { display: flex; align-items: baseline; justify-content: space-between; gap: 15px; padding: 19px 0; border-bottom: 1px solid var(--line); }
+.card-request span, .card-route span { color: var(--muted); font-size: 12px; }
+.card-request strong { font: 400 25px Georgia, serif; }
+.card-stop-message { display: grid; gap: 8px; padding: 21px 0; border-bottom: 1px solid var(--line); color: #994d3c; }
+.card-stop-message strong { font: 400 21px Georgia, serif; }
+.card-stop-message span { font-size: 13px; }
+.card-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.card-metrics div { display: grid; gap: 7px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.card-metrics span { color: var(--muted); font-size: 11px; }
+.card-metrics strong { color: var(--moss-dark); font-size: 16px; font-weight: 600; }
+.card-route strong { color: var(--moss-dark); font-size: 14px; }
+.card-reasons, .card-questions { padding: 21px 0; border-bottom: 1px solid var(--line); }
+.card-section-label { display: block; margin-bottom: 12px; color: var(--coral); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.card-reasons ul, .card-questions ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.card-reasons li, .card-questions li { position: relative; padding-left: 16px; color: var(--ink); font-size: 12px; line-height: 1.45; }
+.card-reasons li::before, .card-questions li::before { content: ""; position: absolute; top: .48em; left: 0; width: 6px; height: 6px; background: var(--moss); }
+.card-questions li::before { background: var(--coral); }
+.card-footer { display: flex; justify-content: space-between; gap: 15px; padding-top: 18px; color: var(--muted); font-size: 10px; }
+.card-empty { width: min(600px, calc(100% - 48px)); margin: 0 auto; padding: 130px 0; }
+.card-empty h1 { margin: 18px 0 12px; font: 400 46px Georgia, serif; }
+.card-empty p:not(.eyebrow) { max-width: 430px; margin: 0 0 25px; color: var(--muted); line-height: 1.6; }
+
+@media print {
+  .no-print, .site-header.no-print { display: none !important; }
+  .card-page { background: white; }
+  .negotiation-layout { width: 100%; display: block; padding: 0; }
+  .negotiation-card { width: 100%; border: 1px solid #182521; box-shadow: none; }
+}
+
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 760px) {
@@ -203,4 +244,10 @@ button { cursor: pointer; }
   .result-panel { min-height: 0; padding: 23px 21px; }
   .results-actions { display: block; }
   .results-actions .button { margin-bottom: 10px; }
+  .negotiation-layout { width: min(100% - 32px, 560px); display: block; padding-top: 48px; }
+  .card-intro { padding: 0 0 40px; }
+  .card-intro h1 { font-size: 40px; }
+  .negotiation-card { padding: 24px 21px 20px; box-shadow: 8px 8px 0 var(--coral); }
+  .card-metrics { grid-template-columns: 1fr; }
+  .card-footer { display: block; line-height: 1.8; }
 }

@@ -136,7 +136,7 @@ export default function ResultsPage() {
         </section>
 
         <div className="results-actions">
-          <Link className="button button-primary" href="/assessment">Start another assessment <span aria-hidden="true">→</span></Link>
+          <Link className="button button-primary" href="/negotiation-card">Build my negotiation card <span aria-hidden="true">→</span></Link>
           <Link className="button button-quiet" href="/assessment">Review answers</Link>
         </div>
         <p className="results-disclaimer">Borrower-side decision support. This is not a lender approval, credit score, or financial advice.</p>
