@@ -42,6 +42,10 @@ export const COLLATERAL_ASSUMPTIONS = {
   maximumLoanToValue: 0.6,
 } as const;
 
+export const ELIGIBILITY_ASSUMPTIONS = {
+  lenderRangeFloorRatio: 0.75,
+} as const;
+
 export const STRESS_ASSUMPTIONS = {
   incomeReduction: 0.2,
   floatingRateIncrease: 0.02,
