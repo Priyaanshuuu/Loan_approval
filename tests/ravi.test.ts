@@ -20,6 +20,8 @@ describe("Ravi walkthrough", () => {
       collateralValue: 4_500_000,
       collateralEncumbered: false,
       productiveBorrowing: true,
+      emergencySavingsMonths: null,
+      existingDebtRate: null,
     });
 
     expect(result.verdict).toBe("BORROW_LESS");

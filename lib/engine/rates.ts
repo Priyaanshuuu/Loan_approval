@@ -81,7 +81,7 @@ export function calculateFairRate(
   }
 
   if (
-    profile.emergencySavingsMonths !== undefined &&
+    typeof profile.emergencySavingsMonths === "number" &&
     profile.emergencySavingsMonths < EMERGENCY_BUFFER_ASSUMPTIONS.thinMonths
   ) {
     minRate += 0.005;

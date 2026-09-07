@@ -41,7 +41,7 @@ export function estimateLenderRange(
 
   if (
     productAssumption.secured &&
-    profile.collateralValue !== undefined &&
+    typeof profile.collateralValue === "number" &&
     profile.collateralValue > 0 &&
     profile.collateralEncumbered === false
   ) {

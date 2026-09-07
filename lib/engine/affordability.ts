@@ -33,7 +33,7 @@ export function normalizeStableIncome(
   >,
 ): StableIncomeResult {
   const incomeFloor = Math.max(0, profile.incomeMin ?? profile.monthlyIncome);
-  const incomeCeiling = profile.incomeMax;
+  const incomeCeiling = profile.incomeMax ?? undefined;
   const documentedIncome = profile.documentedAnnualIncome
     ? Math.max(0, profile.documentedAnnualIncome / 12)
     : undefined;
@@ -102,13 +102,13 @@ export function calculateAffordability(
   let riskMultiplier = 1;
 
   if (
-    profile.emergencySavingsMonths !== undefined &&
+    typeof profile.emergencySavingsMonths === "number" &&
     profile.emergencySavingsMonths <
       EMERGENCY_BUFFER_ASSUMPTIONS.veryThinMonths
   ) {
     riskMultiplier *= EMERGENCY_BUFFER_ASSUMPTIONS.veryThinEmiMultiplier;
   } else if (
-    profile.emergencySavingsMonths !== undefined &&
+    typeof profile.emergencySavingsMonths === "number" &&
     profile.emergencySavingsMonths < EMERGENCY_BUFFER_ASSUMPTIONS.thinMonths
   ) {
     riskMultiplier *= EMERGENCY_BUFFER_ASSUMPTIONS.thinEmiMultiplier;

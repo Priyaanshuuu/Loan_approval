@@ -106,7 +106,7 @@ export default function NegotiationCard() {
         <div className="card-reasons">
           <span className="card-section-label">Why this boundary</span>
           <ul>
-            {result.reasons.slice(0, 4).map((reason) => <li key={reason}>{reason}</li>)}
+            {prioritizeReasons(result.reasons, isDoNotBorrow, result.recommendedProduct).slice(0, 4).map((reason) => <li key={reason}>{reason}</li>)}
           </ul>
         </div>
 
@@ -147,6 +147,28 @@ function getLenderQuestions(result: BorrowerResult, isDoNotBorrow: boolean) {
   }
 
   return questions;
+}
+
+function prioritizeReasons(
+  reasons: string[],
+  isDoNotBorrow: boolean,
+  recommendedProduct?: BorrowerResult["recommendedProduct"],
+) {
+  const priorityTerms = isDoNotBorrow
+    ? ["repayment", "high-cost", "income volatility", "credit score"]
+    : recommendedProduct === "secured-business" ||
+        recommendedProduct === "loan-against-property"
+      ? ["documented income", "collateral", "credit score", "business"]
+      : [];
+
+  if (priorityTerms.length === 0) return reasons;
+
+  const riskTerms = priorityTerms;
+  return [...reasons].sort((first, second) => {
+    const firstRisk = riskTerms.some((term) => first.toLowerCase().includes(term));
+    const secondRisk = riskTerms.some((term) => second.toLowerCase().includes(term));
+    return Number(secondRisk) - Number(firstRisk);
+  });
 }
 
 function cardVerdict(verdict: BorrowerResult["verdict"]) {

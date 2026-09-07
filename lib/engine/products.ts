@@ -22,7 +22,7 @@ export function routeProduct(profile: BorrowerProfile): ProductRoutingResult {
 
   if (
     profile.purpose === "business" &&
-    profile.collateralValue !== undefined &&
+    typeof profile.collateralValue === "number" &&
     profile.collateralValue > 0 &&
     profile.collateralEncumbered === false
   ) {

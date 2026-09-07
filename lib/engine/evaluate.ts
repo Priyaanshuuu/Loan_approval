@@ -97,7 +97,7 @@ export function evaluateBorrower(profile: BorrowerProfile): BorrowerResult {
     reasons.push("recent repayment distress reduces the safe EMI ceiling");
   }
 
-  if (profile.existingDebtRate !== undefined && profile.existingDebtRate >= REPAYMENT_RISK_ASSUMPTIONS.highCostDebtRate) {
+  if (profile.existingDebtRate != null && profile.existingDebtRate >= REPAYMENT_RISK_ASSUMPTIONS.highCostDebtRate) {
     reasons.push("existing high-cost debt is a reason to avoid adding expensive borrowing");
   }
 
@@ -159,7 +159,7 @@ function determineVerdict(
     profile.missedPaymentRecently &&
     (profile.emergencySavingsMonths ?? 0) < 1;
   const highCostDebt =
-    profile.existingDebtRate !== undefined &&
+    profile.existingDebtRate != null &&
     profile.existingDebtRate >= REPAYMENT_RISK_ASSUMPTIONS.highCostDebtRate;
 
   if (emiCeiling <= 0 || debtRatio >= 0.5 || severeRisk || highCostDebt) {
@@ -183,8 +183,8 @@ function calculateConfidence(
   if (profile.incomeType === "informal" || profile.incomeVolatility === "high") {
     score -= 1;
   }
-  if (profile.existingDebtRate === undefined) score -= 1;
-  if (profile.emergencySavingsMonths === undefined) score -= 1;
+  if (profile.existingDebtRate == null) score -= 1;
+  if (profile.emergencySavingsMonths == null) score -= 1;
   if (stableIncome <= 0) score = 0;
 
   if (score <= 1) return "LOW";
@@ -225,7 +225,7 @@ function collectWarnings(
   const warnings: string[] = [];
 
   if (
-    profile.documentedAnnualIncome !== undefined &&
+    profile.documentedAnnualIncome != null &&
     Math.abs(profile.monthlyIncome * 12 - profile.documentedAnnualIncome) >
       profile.monthlyIncome * 12 * 0.5
   ) {

@@ -37,32 +37,32 @@ export interface BorrowerProfile {
 
   monthlyIncome: number;
   incomeType: IncomeType;
-  incomeMin?: number;
-  incomeMax?: number;
+  incomeMin?: number | null;
+  incomeMax?: number | null;
   incomeVolatility?: "low" | "medium" | "high";
 
   householdExpenses: number;
   existingEmi: number;
-  existingDebtRate?: number;
+  existingDebtRate?: number | null;
 
   creditScore: number | null;
-  employmentYears?: number;
-  businessYears?: number;
-  documentedAnnualIncome?: number;
+  employmentYears?: number | null;
+  businessYears?: number | null;
+  documentedAnnualIncome?: number | null;
 
-  emergencySavingsMonths?: number;
-  missedPaymentRecently?: boolean;
+  emergencySavingsMonths?: number | null;
+  missedPaymentRecently?: boolean | null;
   upcomingLargeExpense?: boolean;
 
-  collateralValue?: number;
-  collateralEncumbered?: boolean;
-  productiveBorrowing?: boolean;
-  expectedAdditionalMonthlyIncome?: number;
+  collateralValue?: number | null;
+  collateralEncumbered?: boolean | null;
+  productiveBorrowing?: boolean | null;
+  expectedAdditionalMonthlyIncome?: number | null;
 
   requestedProduct?: ProductType;
-  lenderRateQuote?: number;
-  processingFee?: number;
-  otherUpfrontFees?: number;
+  lenderRateQuote?: number | null;
+  processingFee?: number | null;
+  otherUpfrontFees?: number | null;
 }
 
 export interface BorrowerResult {
