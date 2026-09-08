@@ -29,6 +29,11 @@ The application currently uses the documented prototype assumptions in [RULES.md
 
 The runnable implementation is in the repository root. The recommended structure below is a design guide; the actual route and module names are authoritative.
 
+## Project decisions
+
+- [Why this approach and tech stack](approach-and-tech-stack/README.md)
+- [Tradeoffs](tradeoffs/README.md)
+
 ---
 
 ## Product philosophy
