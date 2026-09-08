@@ -13,6 +13,22 @@ It then turns the result into a **Negotiation Card** that the borrower can use w
 
 > **Important:** This is a decision-support prototype, not a lender, credit bureau, financial adviser, or loan approval system. It does not guarantee approval, pricing, or eligibility.
 
+## Current implementation
+
+The current v1 prototype includes:
+
+- A borrower-first landing page at `/`.
+- An adaptive, one-question-at-a-time assessment at `/assessment`.
+- Deterministic evaluation through `evaluateBorrower(profile)`.
+- Results at `/results` with verdict, lender range, safe range, fair-rate band, estimated all-in APR, EMI ceiling, stress result, reasons, and tenure trade-offs.
+- A print-friendly Negotiation Card at `/negotiation-card`.
+- Browser-session-only profile handoff using `sessionStorage`; no backend or persistent personal-data storage.
+- Vitest coverage for the three borrower walkthroughs, questionnaire routing, and engine edge cases.
+
+The application currently uses the documented prototype assumptions in [RULES.md](RULES.md). Rate bands and LTV values are illustrative assumptions and must be replaced or verified with current lender/product data before production use.
+
+The runnable implementation is in the repository root. The recommended structure below is a design guide; the actual route and module names are authoritative.
+
 ---
 
 ## Product philosophy
@@ -254,9 +270,11 @@ borrower-copilot/
 │   ├── ravi.test.ts
 │   └── anita.test.ts
 │
-├── RULES.md
-├── RUNTHROUGHS.md
-└── README.md
+├── docs/
+│   ├── README.md
+│   ├── RULES.md
+│   └── RUNTHROUGHS.md
+└── package.json
 ```
 
 Keep calculation logic separate from UI.
@@ -399,6 +417,16 @@ npm run build
 npm start
 ```
 
+### Tests and checks
+
+```bash
+npm test
+npm run lint
+npx tsc --noEmit
+```
+
+`npm test` runs the Vitest suites in `tests/`. The browser walkthroughs use the local development server and cover the assessment, results, and Negotiation Card routes.
+
 ---
 
 ## No backend by design
@@ -414,7 +442,7 @@ Version 1.0 does not need:
 - user accounts
 - persistent personal-data storage
 
-Inputs can remain in client-side React state.
+Inputs remain in client-side React state during the assessment and are passed between routes through `sessionStorage` for the current browser session. They are not sent to a backend or written to a database.
 
 This keeps the prototype aligned with the challenge:
 
@@ -486,6 +514,8 @@ Confidence rules
 
 Every such value must be recorded in `RULES.md`.
 
+The implementation also treats `null` as an explicit unknown for optional borrower inputs. Unknown values are not converted to zero or to a guessed risk value; they widen uncertainty or lower confidence where the rule applies.
+
 ---
 
 ## Why rules instead of an LLM?
@@ -514,3 +544,15 @@ See:
 Sources:
 - https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12678
 - https://www.rbi.org.in/scripts/NotificationUser.aspx?Id=12382
+
+## Verified v1 behavior
+
+The end-to-end walkthroughs were run against the local application at desktop and mobile widths:
+
+| Borrower | Adaptive route | Current result | Product direction |
+|---|---|---|---|
+| Priya | Salaried questions, employer tenure, savings, expense, lender quote | `BORROW` | Personal loan |
+| Ravi | Business, income range, ITR, collateral, productive-use questions | `BORROW_LESS` with `LOW` confidence | Secured business loan |
+| Anita | Informal income, volatility, existing debt, bounce, savings, productive-use questions | `DON'T_BORROW` with ₹0 new EMI | Vehicle route shown, but pause new borrowing |
+
+The illustrative numbers in the walkthrough documents may differ from the current output because the engine uses the actual entered household expenses, documented income, risk adjustments, rate bands, and tenure assumptions. Priya's design brief says `BORROW LESS`, but the current rules return `BORROW` for the documented inputs; this is an intentional, visible test expectation until a stricter wedding/consumption policy is defined.

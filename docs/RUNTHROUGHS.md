@@ -613,8 +613,8 @@ The app should say:
 
 | Borrower | Main signal | Product direction | Verdict direction |
 |---|---|---|---|
-| Priya | Strong salaried + strong credit, but requested consumption loan | Unsecured personal | Borrow Less |
-| Ravi | Variable/self-employed + collateral + productive use | Secured business/LAP route | Borrow / product-route first |
+| Priya | Strong salaried + strong credit, but requested consumption loan | Unsecured personal | **Current engine: Borrow**; brief target: Borrow Less |
+| Ravi | Variable/self-employed + collateral + productive use | Secured business/LAP route | **Current engine: Borrow Less**; route first |
 | Anita | Existing high-cost debt + recent bounce + low/variable income | Don't add expensive debt | Don't Borrow |
 
 ---
@@ -642,6 +642,18 @@ Self-employed ≠ reject
 ```text
 Productive purpose ≠ automatically safe
 ```
+
+## Current implementation notes
+
+The walkthrough text above describes the intended product direction and illustrative values. The executable application currently behaves as follows:
+
+- Priya is evaluated as `BORROW` when the entered values leave the requested amount inside the modeled safe maximum. The test suite records this current rule-driven behavior.
+- Ravi is evaluated as `BORROW_LESS` with `LOW` confidence and routed to `Secured business loan` when the property is unencumbered and documented income constrains the model.
+- Anita is evaluated as `DON'T_BORROW`, with a ₹0 new EMI ceiling when high-cost existing debt and recent repayment stress eliminate safe capacity.
+- Unknown answers are stored as `null`. They are not treated as zero, a low score, or a positive signal.
+- The Negotiation Card asks for an official KFS, all-in cost, total repayment, rate behavior, and collateral conditions where relevant.
+
+These are the values verified by the current end-to-end browser walkthroughs and automated tests. They should be updated here when the rule engine or product policy changes.
 
 ---
 
